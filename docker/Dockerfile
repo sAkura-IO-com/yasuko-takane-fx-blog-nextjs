@@ -6,7 +6,6 @@ WORKDIR /app
 
 FROM base AS deps
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
-COPY .agents ./.agents
 RUN pnpm install --frozen-lockfile --ignore-scripts
 
 FROM base AS runner
