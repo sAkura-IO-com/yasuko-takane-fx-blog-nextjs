@@ -1,0 +1,46 @@
+# 行尾统一：仓库里一律存 LF，任何系统检出也都是 LF。
+# 这样 Windows 上不会因为编辑器/工具写 LF 而出现「内容没变却显示 modified」的假 diff，
+# 也不依赖每台机器的 core.autocrlf 设置（本文件里的规则优先于它）。
+* text=auto eol=lf
+
+# 需要 CRLF 的 Windows 专用脚本（当前仓库没有，将来加的话放开注释）
+# *.bat text eol=crlf
+# *.cmd text eol=crlf
+
+# 脚本和 lock 文件明确保持 LF
+*.sh text eol=lf
+*.py text eol=lf
+*.sql text eol=lf
+pnpm-lock.yaml text eol=lf
+
+# 二进制：不做行尾转换，也不参与文本 diff
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.avif binary
+*.bmp binary
+*.ico binary
+*.icns binary
+*.ogg binary
+*.mp3 binary
+*.wav binary
+*.flac binary
+*.mp4 binary
+*.webm binary
+*.mov binary
+*.zip binary
+*.gz binary
+*.7z binary
+*.pdf binary
+*.wasm binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary
+*.eot binary
+*.sqlite binary
+*.sqlite3 binary
+*.db binary
+*.lockb binary

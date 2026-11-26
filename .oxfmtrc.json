@@ -1,0 +1,9 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "ignorePatterns": ["components/motion/**", "components/ui/**", ".*/"],
+  "printWidth": 80,
+  "sortTailwindcss": {
+    "stylesheet": "app/globals.css",
+    "functions": ["cn", "cva", "clsx", "twMerge", "twJoin"]
+  }
+}

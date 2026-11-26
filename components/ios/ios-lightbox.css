@@ -1,0 +1,198 @@
+.ios-lightbox-blur {
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  backdrop-filter: blur(40px) saturate(180%);
+  will-change: opacity;
+}
+
+.ios-lightbox-veil {
+  background: rgb(0 0 0 / 50%);
+}
+
+.ios-lightbox-stage {
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.ios-lightbox-track {
+  display: flex;
+  width: 300%;
+  height: 100%;
+  margin-left: -100%;
+  will-change: transform;
+}
+
+.ios-lightbox-slot {
+  display: flex;
+  flex: 0 0 33.3333%;
+  min-width: 0;
+  align-items: center;
+  justify-content: center;
+  padding:
+    calc(4rem + env(safe-area-inset-top, 0px))
+    1rem
+    calc(4.5rem + env(safe-area-inset-bottom, 0px));
+}
+
+.ios-lightbox-frame {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.ios-lightbox-img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  transform-origin: 50% 50%;
+  -webkit-user-drag: none;
+}
+
+.ios-lightbox-svg-host {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: 50% 50%;
+  -webkit-user-drag: none;
+  overflow: hidden;
+}
+
+.ios-lightbox-svg-host > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.ios-lightbox-pele {
+  --pele-bg: var(--background);
+  --pele-fg: var(--foreground);
+  --pele-fg-on-light: oklch(0.145 0 0);
+  --pele-fg-on-dark: oklch(0.985 0 0);
+  --pele-muted: var(--muted-foreground);
+  --pele-line: var(--foreground);
+  --pele-surface: var(--muted);
+  --pele-surface-alt: var(--secondary);
+  --pele-border: var(--border);
+  --pele-accent: var(--chart-1);
+  --pele-critical: var(--destructive);
+  --pele-error: var(--destructive);
+  --pele-font: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  --pele-font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+  --pele-series-1: var(--chart-1);
+  --pele-series-2: var(--chart-2);
+  --pele-series-3: var(--chart-3);
+  --pele-series-4: var(--chart-4);
+  --pele-series-5: var(--chart-5);
+  --pele-series-6: var(--chart-6);
+  --pele-series-7: var(--chart-7);
+  --pele-series-8: var(--chart-8);
+  color: var(--pele-fg);
+}
+
+.ios-lightbox-thumb-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: color-mix(in oklab, var(--background) 92%, var(--muted));
+}
+
+.ios-lightbox-thumb-svg > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.ios-lightbox-chrome {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 999px;
+}
+
+.ios-lightbox-arrow {
+  position: absolute;
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.ios-lightbox-arrow [aria-disabled="true"] {
+  opacity: 0.28;
+  pointer-events: none;
+}
+
+.ios-lightbox-thumbs {
+  border-radius: 1.25rem;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  touch-action: pan-x;
+}
+
+.ios-lightbox-thumb {
+  width: 2.5rem;
+  height: 2.5rem;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  opacity: 0.8;
+  transition:
+    opacity 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.ios-lightbox-thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ios-lightbox-thumb:hover {
+  opacity: 0.92;
+}
+
+.ios-lightbox-thumb.is-active {
+  opacity: 1;
+  box-shadow: 0 0 0 2px rgb(0 0 0 / 40%);
+}
+
+.dark .ios-lightbox-thumb.is-active {
+  box-shadow: 0 0 0 2px rgb(255 255 255 / 92%);
+}
+
+.ios-lightbox-arrow {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .ios-lightbox-slot {
+    padding:
+      calc(4rem + env(safe-area-inset-top, 0px))
+      4rem
+      calc(4.5rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  .ios-lightbox-arrow,
+  .ios-lightbox-thumbs {
+    display: flex;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ios-lightbox-thumb {
+    transition: none;
+  }
+}

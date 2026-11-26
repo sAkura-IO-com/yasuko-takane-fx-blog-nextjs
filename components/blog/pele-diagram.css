@@ -1,0 +1,115 @@
+.pele-diagram {
+  --pele-bg: var(--background);
+  --pele-fg: var(--foreground);
+  --pele-fg-on-light: oklch(0.145 0 0);
+  --pele-fg-on-dark: oklch(0.985 0 0);
+  --pele-muted: var(--muted-foreground);
+  --pele-line: var(--foreground);
+  --pele-surface: var(--muted);
+  --pele-surface-alt: var(--secondary);
+  --pele-border: var(--border);
+  --pele-accent: var(--chart-1);
+  --pele-critical: var(--destructive);
+  --pele-error: var(--destructive);
+  --pele-font: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  --pele-font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+  --pele-series-1: var(--chart-1);
+  --pele-series-2: var(--chart-2);
+  --pele-series-3: var(--chart-3);
+  --pele-series-4: var(--chart-4);
+  --pele-series-5: var(--chart-5);
+  --pele-series-6: var(--chart-6);
+  --pele-series-7: var(--chart-7);
+  --pele-series-8: var(--chart-8);
+
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow: auto;
+  margin-block: 1rem;
+  border-radius: var(--radius);
+  background: color-mix(in oklab, var(--pele-bg) 92%, var(--pele-surface));
+  color: transparent;
+  white-space: pre-wrap;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  min-height: 7.5rem;
+  box-sizing: border-box;
+}
+
+html.dark .pele-diagram,
+.dark .pele-diagram {
+}
+
+.pele-diagram svg.pele,
+.pele-diagram .pele {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  color: var(--pele-fg);
+}
+
+.pele-diagram :where([style*="--pele-error"], .pele-error) {
+  color: var(--pele-error);
+  font-size: 0.875rem;
+  white-space: pre-wrap;
+}
+
+.pele-diagram--pending {
+  position: relative;
+  color: transparent;
+  background:
+    linear-gradient(
+      110deg,
+      color-mix(in oklab, var(--pele-surface) 55%, transparent) 25%,
+      color-mix(in oklab, var(--pele-surface-alt) 70%, transparent) 37%,
+      color-mix(in oklab, var(--pele-surface) 55%, transparent) 63%
+    )
+    color-mix(in oklab, var(--pele-bg) 92%, var(--pele-surface));
+  background-size: 200% 100%;
+  animation: pele-diagram-skeleton 1.4s ease-in-out infinite;
+  border: 1px solid color-mix(in oklab, var(--pele-border) 70%, transparent);
+}
+
+@keyframes pele-diagram-skeleton {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pele-diagram--pending {
+    animation: none;
+  }
+}
+
+.pele-diagram--mounted {
+  min-height: 0;
+  color: var(--pele-fg);
+  animation: none;
+  border: none;
+  cursor: zoom-in;
+}
+
+.pele-diagram--mounted > svg.pele {
+  pointer-events: auto;
+}
+
+.pele-diagram--error {
+  min-height: 0;
+  color: var(--pele-error);
+  animation: none;
+  padding: 0.75rem 1rem;
+  border: 1px solid color-mix(in oklab, var(--pele-error) 35%, transparent);
+}
+
+.pele-diagram-error {
+  color: var(--pele-error);
+  font-size: 0.875rem;
+  white-space: pre-wrap;
+  line-height: 1.45;
+}

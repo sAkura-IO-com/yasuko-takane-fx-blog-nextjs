@@ -1,0 +1,88 @@
+# 注意：本文件仅用于本地体验：内置凭据均为弱默认值，且端口默认绑定 0.0.0.0。
+# 公开环境部署前必须自行设置强密码：
+#   - PostgreSQL：POSTGRES_PASSWORD 与 DATABASE_URL 中的密码保持一致
+#   - RustFS：RUSTFS_ACCESS_KEY / RUSTFS_SECRET_KEY 与 R2_ACCESS_KEY_ID / R2_SECRET_ACCESS_KEY
+#   - BETTER_AUTH_SECRET / CONFIG_MASTER_KEY 用 `openssl rand -base64 32` 生成
+# 同时建议收紧端口（如 13819 控制台改为 "127.0.0.1:13819:9001"），并修正 SITE_URL 与 R2_PUBLIC_BASE_URL。
+name: yasuko-takane-fx-blog
+
+services:
+  app:
+    image: ghcr.io/sakura-io-com/yasuko-takane-fx-blog-nextjs:latest
+    restart: unless-stopped
+    init: true
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rustfs:
+        condition: service_started
+    ports:
+      - "13817:3033"
+    environment:
+      NODE_ENV: production
+      TZ: Asia/Shanghai
+      SITE_URL: http://localhost:13817
+      DATABASE_URL: postgres://yasuko:yasuko@postgres:5432/yasuko
+      DRIZZLE_DRIVER: node-postgres
+      # 以下两项为占位符，公开部署必须替换为随机值
+      BETTER_AUTH_SECRET: CHANGE_ME_better_auth_secret_32_chars
+      CONFIG_MASTER_KEY: CHANGE_ME_config_master_key_32_chars
+      R2_ACCOUNT_ID: local
+      R2_ACCESS_KEY_ID: rustfsadmin
+      R2_SECRET_ACCESS_KEY: rustfsadmin
+      R2_BUCKET: yasuko-takane-fx-blog
+      R2_ENDPOINT: http://rustfs:9000
+      R2_REGION: us-east-1
+      # 浏览器直传用的宿主机地址，指向同上存储的宿主机映射端口
+      R2_PUBLIC_ENDPOINT: http://localhost:13818
+      R2_PUBLIC_BASE_URL: http://localhost:13818/yasuko-takane-fx-blog
+      R2_FORCE_PATH_STYLE: "1"
+    volumes:
+      - nextcache:/app/.next
+    networks:
+      - blog
+
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: yasuko
+      POSTGRES_USER: yasuko
+      # 弱默认密码，公开部署必须修改（并同步 DATABASE_URL）
+      POSTGRES_PASSWORD: yasuko
+      TZ: Asia/Shanghai
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U yasuko -d yasuko"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks:
+      - blog
+
+  rustfs:
+    image: rustfs/rustfs:latest
+    restart: unless-stopped
+    environment:
+      # 弱默认凭据，公开部署必须修改（并同步 R2_ACCESS_KEY_ID / R2_SECRET_ACCESS_KEY）
+      RUSTFS_ACCESS_KEY: rustfsadmin
+      RUSTFS_SECRET_KEY: rustfsadmin
+      RUSTFS_VOLUMES: /data
+      RUSTFS_REGION: us-east-1
+      RUSTFS_CONSOLE_ENABLE: "true"
+    ports:
+      - "13818:9000"
+      - "13819:9001"
+    volumes:
+      - rustfsdata:/data
+    networks:
+      - blog
+
+volumes:
+  pgdata:
+  rustfsdata:
+  nextcache:
+
+networks:
+  blog:
